@@ -6,13 +6,13 @@ import numpy as np
 WIDTH = 1920
 HEIGHT = 1080
 
-def read_info(path):#os.curdir+path
+def read_info(path):#os.curdir+path  #reads the information of the file from the given path
     path_upd = path + "/"
     _files = [f for f in os.listdir(path) if os.path.isfile(path_upd+f)]
     _dir = [d for d in os.listdir(path) if os.path.isdir(path_upd+d)]    
     return(_files, _dir)
 
-def extract_frames(file):
+def extract_frames(file): # extract the frames from the video and returns 
     cap_vid = cv2.VideoCapture(file)
     frameCount = int(cap_vid.get(cv2.CAP_PROP_FRAME_COUNT))
     fps = int(cap_vid.get(cv2.CAP_PROP_FPS))
@@ -27,7 +27,7 @@ def extract_frames(file):
     cap_vid.release()
     return buf, fps
 
-def stitch_frames(img_1, img_2, img_3, img_4, img_5, img_6):
+def stitch_frames(img_1, img_2, img_3, img_4, img_5, img_6): # stitch the image
     _tmp_up = np.hstack((img_1,img_2,img_3))
     _tmp_down = np.hstack((img_4, img_5, img_6))
     return(np.vstack((_tmp_up, _tmp_down)))
