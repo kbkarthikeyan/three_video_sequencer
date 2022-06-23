@@ -28,18 +28,19 @@ def extract_frames_cv(file):
 def extract_frames(file):
     return VideoFileClip(file)
     
-def stitch_frames(img_1, img_2, img_3, img_4, img_5, img_6):
+def stitch_frames_cv(img_1, img_2, img_3, img_4, img_5, img_6):
     _tmp_up = np.hstack((img_1,img_2,img_3))
     _tmp_down = np.hstack((img_4, img_5, img_6))
     return(np.vstack((_tmp_up, _tmp_down)))
 
 def make_video(path, vid_01, vid_02, vid_03, clips):
     print("\nCreating Video..")
-    
     video = ([[vid_01, clips, vid_02], [clips, vid_03, clips]])
     video = clips_array(video)
     video.write_videofile(path, fps=vid_01.fps)
+    print("\File save successful..")
     return
+
 def make_video_cv(path, file, fps = 30):
     print("\nCreating Video..")
     out = cv2.VideoWriter(path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (file.shape[2], file.shape[1]))
@@ -52,12 +53,17 @@ def make_video_cv(path, file, fps = 30):
     print("\nConversion Successful")
     
 def progress_bar(progress, total):
-        percent = 100*(progress/float(total))
-        bar = '#'*int(percent) + '-'*(100 - int(percent))
-        print(f"\r|{bar}|{percent:.2f}%", end = "\r")
+    percent = 100*(progress/float(total))
+    bar = '#'*int(percent) + '-'*(100 - int(percent))
+    print(f"\r|{bar}|{percent:.2f}%", end = "\r")
         
 if __name__ == "__main__":
-    path = os.curdir+"//"+sys.argv[1]
+    if ".mp4" in sys.argv[2] and ".mp4" in sys.argv[1]:
+        path = os.curdir+"//"+sys.argv[1]
+        path_save = sys.argv[2]
+    else:
+        print("Error! Not a proper naming scheme")
+        sys.exit()
     files, dir = read_info(path)
     tmp = []
     print("Please wait loading files... ")
@@ -76,10 +82,10 @@ if __name__ == "__main__":
     print("\nFiles loaded..")
     imgblank = np.zeros((480,640,3), np.uint8)
     clips = ImageClip(imgblank).set_duration(vid_01.duration)
-    
- #   buf = np.empty((vid_01.shape[0], HEIGHT, WIDTH, 3), np.dtype('uint8'))
- #  for i in range(vid_01.shape[0]):
- #        buf[i] = stitch_frames(vid_01[i], imgblank, vid_02[i], imgblank, vid_03[i], imgblank)
     make_video(sys.argv[2], vid_01, vid_02, vid_03, clips)
-    #cv2.imshow("",vid_01[1])
-    #cv2.waitKey(0)
+    
+#   buf = np.empty((vid_01.shape[0], HEIGHT, WIDTH, 3), np.dtype('uint8'))
+#   for i in range(vid_01.shape[0]):
+#        buf[i] = stitch_frames(vid_01[i], imgblank, vid_02[i], imgblank, vid_03[i], imgblank)
+#   cv2.imshow("",vid_01[1])
+#   cv2.waitKey(0)
