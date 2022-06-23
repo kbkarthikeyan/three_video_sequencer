@@ -56,8 +56,8 @@ def progress_bar(progress, total):
     percent = 100*(progress/float(total))
     bar = '#'*int(percent) + '-'*(100 - int(percent))
     print(f"\r|{bar}|{percent:.2f}%", end = "\r")
-        
-if __name__ == "__main__":
+      
+def cli():
     if ".mp4" in sys.argv[2] and ".mp4" in sys.argv[1]:
         path = os.curdir+"//"+sys.argv[1]
         path_save = sys.argv[2]
@@ -83,6 +83,9 @@ if __name__ == "__main__":
     imgblank = np.zeros((480,640,3), np.uint8)
     clips = ImageClip(imgblank).set_duration(vid_01.duration)
     make_video(sys.argv[2], vid_01, vid_02, vid_03, clips)
+
+if __name__ == "__main__":
+    cli()    
     
 #   buf = np.empty((vid_01.shape[0], HEIGHT, WIDTH, 3), np.dtype('uint8'))
 #   for i in range(vid_01.shape[0]):
