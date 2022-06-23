@@ -58,7 +58,7 @@ def progress_bar(progress, total):
     print(f"\r|{bar}|{percent:.2f}%", end = "\r")
       
 def cli():
-    if ".mp4" in sys.argv[2] and ".mp4" in sys.argv[1]:
+    if ".mp4" in sys.argv[2]:
         path = os.curdir+"//"+sys.argv[1]
         path_save = sys.argv[2]
     else:
